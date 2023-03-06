@@ -1,4 +1,4 @@
-package com.o7services.recyclercrud
+package com.example.crudrecycler
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

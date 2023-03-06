@@ -3,14 +3,17 @@ package com.example.crudrecycler
 import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.crudrecycler.databinding.ActivityMainBinding
 import com.example.crudrecycler.databinding.AddLayoutBinding
 import com.example.crudrecycler.databinding.EditLayoutBinding
-import com.o7services.recyclercrud.studentAdapter
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity(), newInterface {
     lateinit var binding: ActivityMainBinding
+    val db = Firebase.firestore
     var studentList=ArrayList<studentModel>()
     lateinit var studentAdapter: studentAdapter
     lateinit var newInterface:newInterface
@@ -23,6 +26,7 @@ class MainActivity : AppCompatActivity(), newInterface {
         studentAdapter = studentAdapter(studentList, this)
         binding.lv.adapter = studentAdapter
         binding.lv.layoutManager = LinearLayoutManager(this)
+
         binding.floatingBtn.setOnClickListener {
             val dialogBinding = AddLayoutBinding.inflate(layoutInflater)
             val dialog = Dialog(this)
@@ -33,15 +37,13 @@ class MainActivity : AppCompatActivity(), newInterface {
                 } else if (dialogBinding.etRollNo.text.toString().isEmpty()) {
                     dialogBinding.etRollNo.error = "Enter your Rollno"
                 } else {
-                    studentList.add(
-                        studentModel(
-                            dialogBinding.etName.text.toString(),
-                            dialogBinding.etRollNo.text.toString()
-                        )
-                    )
-                    dialog.dismiss()
-                    studentAdapter.notifyDataSetChanged()
+                    db.collection("Users")
+                        .add(studentModel(dialogBinding.etName.text.toString(),dialogBinding.etRollNo.text.toString()))
+                        .addOnSuccessListener {
+                            Toast.makeText(this,"Add",Toast.LENGTH_SHORT).show()
+                        }
                 }
+                dialog.dismiss()
             }
             dialog.show()
         }
