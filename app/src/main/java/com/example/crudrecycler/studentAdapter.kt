@@ -4,10 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.crudrecycler.databinding.ItemRvLayoutBinding
-import com.example.crudrecycler.newInterface
-import com.example.crudrecycler.studentModel
 
-class studentAdapter(val studentList:ArrayList<studentModel>,val newInterface: newInterface):RecyclerView.Adapter<studentAdapter.viewHolder>(){
+class StudentAdapter(val studentList:ArrayList<studentModel>, val newInterface: newInterface):
+    RecyclerView.Adapter<StudentAdapter.viewHolder>(){
     class viewHolder (val binding:ItemRvLayoutBinding):RecyclerView.ViewHolder(binding.root){
 
     }
